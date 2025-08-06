@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>B-day</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Container untuk GIF di sisi kiri tengah */
+    .side-gif-container {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px; /* 1.5x bulan (80px x 1.5 = 120px) */
+      height: 120px;
+      z-index: 16;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      pointer-events: none;
+      /* Tidak menyentuh batas laut: margin-bottom: 200px sudah cukup di style.css ocean */
+    }
+    .side-gif-container img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(255,255,255,0.4);
+      background: transparent;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="moon" role="button" aria-label="Drag the moon"></div>
+  <div class="reflected-light" id="reflectedLight"></div>
+  <div class="content">
+    <h1 id="mainTitle">Sabaaaarrr!</h1>
+    <div id="countdown"></div>
+    <div id="selamat">
+      <div id="hbdJoyAnimationContainer" class="hbd-joy-animation-container">
+        <div class="number-container">
+          <div class="number-wrapper">
+            <span class="static-number">1</span>
+            <div class="digit-container">
+              <div class="digit" id="digitContainer">
+                <span class="digit-span digit-old">8</span>
+                <span class="digit-span digit-new">9</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="mainSecretEnvelope" class="secret-envelope" onclick="showSecretMessage()" aria-controls="mainSecretMessageModal" style="display: none;">
+        <i class="fas fa-envelope"></i>
+      </button>
+      <div class="secret-message-modal" id="mainSecretMessageModal">
+        <div class="secret-message-content" style="min-height: auto; height: auto;">
+          <button class="close-button" aria-label="Close message"><i class="fas fa-times"></i></button>
+          <p style="line-height: 1.6; color: #f8f8f8;">
+            HAPPY <span id="joiAge">19</span>th Birthday! JOICE 😉<br><br>
+            Baru kali ini aku ada effort buat ucapin ulang tahun ke orang jadi kalau terlalu kaku bisa dimaklumkan.
+            Yang mau kuucapkan ga banyak,hanya berharap apa yang dirimu inginkan di tahun ini akhirnya berhasil dicapai. :D<br><br>
+            ohh iya tapi jangan terlalu memaksakan diri ya,kalau pun ga berhasil ditahun ini masih ada tahun lain kok wkwkwk. 
+            maaf kalau animasi ucapan selamatnya masih kaku sama cuman ini aja yang bisa kusampaikan, yang lain semoga bisa disampaikan tahun depan. :D
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Moon Secret Envelope -->
+  <button id="moonSecretEnvelope" class="secret-envelope moon-secret-envelope" onclick="showMoonSecretMessage()" aria-controls="moonSecretMessageModal">
+    <i class="fas fa-envelope"></i>
+  </button>
+  <div class="secret-message-modal" id="moonSecretMessageModal">
+    <div class="secret-message-content">
+      <button class="close-button" aria-label="Close message"><i class="fas fa-times"></i></button>
+      <h3 style="color: #87ceeb; margin-top: 0;">🌌 Pesan Rahasia dari Bulan 🌌</h3>
+      <p style="line-height: 1.6; color: #87ceeb;">
+        <!-- Pesan ini akan dikosongkan setelah amplop bergabung -->
+      </p>
+    </div>
+  </div>
+  <!-- Merged Secret Message Modal with 3 pages -->
+  <div class="secret-message-modal" id="mergedSecretMessageModal">
+    <div class="secret-message-content">
+      <button class="close-button" aria-label="Close message"><i class="fas fa-times"></i></button>
+      <div class="message-page" id="messagePage1" style="display: block;">
+        <h3 style="color: #ff69b4; margin-top: 0;">ANJIMM KETAHUAN😨😨</h3>
+        <p style="line-height: 1.6; color: #ffd700;">
+          Sebenarnya masih banyak yang mau ku yappingin  ✨<br><br>
+          Ini adalah bukti bahwa ketika dua kekuatan bersatu, hal-hal luar biasa bisa terjadi. 
+          Seperti bintang dan bulan yang saling melengkapi, semoga kamu selalu menemukan harmoni dan kebahagiaan dalam setiap langkahmu.<br><br>
+          Ingatlah, kekuatan sejati ada dalam persatuan dan kemampuanmu untuk melihat keindahan di setiap sudut alam semesta. 🌌<br><br>
+          <strong style="color: #ff69b4;">Teruslah menjelajah dan menemukan keajaiban! 🎉</strong>
+        </p>
+      </div>
+      <div class="message-page" id="messagePage2" style="display: none;">
+        <h3 style="color: #87ceeb; margin-top: 0;">🌟 Perjalanan Menuju Impian 🌟</h3>
+        <p style="line-height: 1.6; color: #ffd700;">
+          Di usia yang ke-19 ini, kamu berada di ambang petualangan baru yang menakjubkan. 
+          Seperti bulan yang bergerak melintasi langit malam, perjalanan hidupmu akan membawa cahaya ke tempat-tempat gelap.<br><br>
+          Setiap bintang di langit mewakili mimpi dan harapanmu. Mereka mungkin tampak jauh, 
+          tapi dengan tekad dan semangat yang kamu miliki, tidak ada yang tidak mungkin untuk diraih. ⭐<br><br>
+          Percayalah pada dirimu sendiri, karena kamu memiliki kekuatan untuk mengubah dunia 
+          dengan cara yang unik dan indah. Jadilah cahaya bagi orang-orang di sekelilingmu! 💫<br><br>
+          <strong style="color: #87ceeb;">Masa depan menanti kehadiranmu! 🚀</strong>
+        </p>
+      </div>
+      <div class="message-page" id="messagePage3" style="display: none;">
+        <h3 style="color: #ffd700; margin-top: 0;">🎊 Harapan dan Doa Terbaik 🎊</h3>
+        <p style="line-height: 1.6; color: #ffd700;">
+          Sebagai penutup pesan magis ini, kami ingin menyampaikan doa dan harapan terbaik untukmu. 
+          Semoga setiap langkahmu dipenuhi dengan kebahagiaan, kesehatan, dan kesuksesan. 🙏<br><br>
+          Seperti kembang api yang menerangi langit malam, semoga hidupmu selalu dipenuhi 
+          dengan momen-momen indah yang berwarna-warni dan tak terlupakan. 🎆<br><br>
+          Jangan pernah lupakan bahwa kamu adalah seseorang yang istimewa, dicintai, 
+          dan memiliki potensi luar biasa untuk mencapai semua yang kamu impikan. 💝<br><br>
+          <strong style="color: #ff69b4;">Selamat ulang tahun, Joi yang tersayang! 
+          Semoga tahun ini menjadi tahun terbaikmu! 🎂🎈✨</strong>
+        </p>
+      </div>
+      <div class="message-navigation">
+        <button id="prevBtn" class="nav-btn" onclick="previousPage()" style="display: none;">
+          <i class="fas fa-chevron-left"></i> Kembali
+        </button>
+        <span class="page-indicator" id="pageIndicator">1 / 3</span>
+        <button id="nextBtn" class="nav-btn" onclick="nextPage()">
+          Lanjut <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="magicParticles"></div>
+  <canvas id="fireworksCanvas"></canvas>
+  <!-- GIF Side Container -->
+  <div class="side-gif-container" id="sideGifContainer">
+    <img id="sideGif" src="gifff/wait.gif" alt="GIF" />
+  </div>
+  <audio id="musik" loop>
+    <source src="gifff/WhatsApp Audio 2025-08-05 at 19.47.56 (1).mpeg" type="audio/mpeg"/>
+  </audio>
+  <script src="script.js"></script>
+</body>
+</html>
