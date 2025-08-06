@@ -7,20 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Container untuk GIF di sisi kiri tengah */
     .side-gif-container {
       position: fixed;
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 120px; /* 1.5x bulan (80px x 1.5 = 120px) */
+      width: 120px;
       height: 120px;
       z-index: 16;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       pointer-events: none;
-      /* Tidak menyentuh batas laut: margin-bottom: 200px sudah cukup di style.css ocean */
     }
     .side-gif-container img {
       width: 120px;
@@ -55,6 +53,7 @@
           </div>
         </div>
       </div>
+      <!-- Only ONE button for mainSecretEnvelope -->
       <button id="mainSecretEnvelope" class="secret-envelope" onclick="showSecretMessage()" aria-controls="mainSecretMessageModal" style="display: none;">
         <i class="fas fa-envelope"></i>
       </button>
@@ -62,11 +61,13 @@
         <div class="secret-message-content" style="min-height: auto; height: auto;">
           <button class="close-button" aria-label="Close message"><i class="fas fa-times"></i></button>
           <p style="line-height: 1.6; color: #f8f8f8;">
-            HAPPY <span id="joiAge">19</span>th Birthday! JOICE 😉<br><br>
-            Baru kali ini aku ada effort buat ucapin ulang tahun ke orang jadi kalau terlalu kaku bisa dimaklumkan.
-            Yang mau kuucapkan ga banyak,hanya berharap apa yang dirimu inginkan di tahun ini akhirnya berhasil dicapai. :D<br><br>
-            ohh iya tapi jangan terlalu memaksakan diri ya,kalau pun ga berhasil ditahun ini masih ada tahun lain kok wkwkwk. 
-            maaf kalau animasi ucapan selamatnya masih kaku sama cuman ini aja yang bisa kusampaikan, yang lain semoga bisa disampaikan tahun depan. :D
+            HAPPY <span id="joiAge">19</span>th Birthday! JOY 😉<br><br>
+            kata kata yang mau diucapkan ga banyak,hanya yang dirimu inginkan di tahun ini akhirnya berhasil dicapai. :D
+            ohh iya tapi jangan terlalu memaksakan diri ya,kalau pun ga berhasil ditahun ini masih ada tahun lain kok wkwkwk.
+            kalau misal ada sesuatu yang bikin dirimu mau nyerah, ingat tombol surend ada di pengaturan tapi ngapain surend kalo matchnya belum selesai wkwkwk.krinj nyaa
+            tapi intinya kalau memang udah terlalu berat,jangan dipendam terus kalau bisa di bagi bagi yaa jangan pelit.<br><br>
+            Baru kali ini ada effort buat ucapin ulang tahun ke orang jadi kalau terlalu kaku bisa dimaklumin ☝️.
+            sorry kalau animasi ucapan selamatnya masih kaku dan cuman dkit yang bisa dikatakan, yang lain semoga bisa disampaikan tahun depan. :D
           </p>
         </div>
       </div>
@@ -79,7 +80,7 @@
   <div class="secret-message-modal" id="moonSecretMessageModal">
     <div class="secret-message-content">
       <button class="close-button" aria-label="Close message"><i class="fas fa-times"></i></button>
-      <h3 style="color: #87ceeb; margin-top: 0;">🌌 Pesan Rahasia dari Bulan 🌌</h3>
+      <h3 style="color: #87ceeb; margin-top: 0;">🌌</h3>
       <p style="line-height: 1.6; color: #87ceeb;">
         <!-- Pesan ini akan dikosongkan setelah amplop bergabung -->
       </p>
@@ -92,36 +93,58 @@
       <div class="message-page" id="messagePage1" style="display: block;">
         <h3 style="color: #ff69b4; margin-top: 0;">ANJIMM KETAHUAN😨😨</h3>
         <p style="line-height: 1.6; color: #ffd700;">
-          Sebenarnya masih banyak yang mau ku yappingin  ✨<br><br>
-          Ini adalah bukti bahwa ketika dua kekuatan bersatu, hal-hal luar biasa bisa terjadi. 
-          Seperti bintang dan bulan yang saling melengkapi, semoga kamu selalu menemukan harmoni dan kebahagiaan dalam setiap langkahmu.<br><br>
-          Ingatlah, kekuatan sejati ada dalam persatuan dan kemampuanmu untuk melihat keindahan di setiap sudut alam semesta. 🌌<br><br>
-          <strong style="color: #ff69b4;">Teruslah menjelajah dan menemukan keajaiban! 🎉</strong>
+         sebenarnya aku ga mau pesan ini ditemuin karena mungkin terlalu alay nan jijik yang bikin ilfeel + merindink sebadan. 
+         jadi kalau misal udah merindink bisa di skip.<br><br>
+         jujur aja ya sebenarnya aku udah down lohh ngedenger kalau mama mu ga mau kau nikah yang tartulang.
+         aku yang punya prinsip pacaran sampai nikah pas dengar itu bikin ga bisa mikir hal yang lain lagi.
+         "kan masih ada cewek lain" jangankan cewek lain, aku ngajak bicara cewek aja ga pernah dan itupun aku ga terlalu dipikirin kali.<br><br>
+         tapi ngapain juga aku langsung nyerah sama adat yang harusnya udah bisa direvisi ulang wkwkwk.
+         sebelum aku ngomong ke mama mu,selagi aturan adatnya tidak terlalu logis lagi untuk diikuti, selama masih merasa benar artinya aku no surend.
+         itu yang terus kupercayakan sampai kau ga ngechat lagi selama kurang lebih 3 minggu.
+         kalau udah ilfeel jangan dilanjut ya wkwkwkwk<br><br>
+          <strong style="color: #ff69b4;">.</strong>
         </p>
       </div>
       <div class="message-page" id="messagePage2" style="display: none;">
-        <h3 style="color: #87ceeb; margin-top: 0;">🌟 Perjalanan Menuju Impian 🌟</h3>
+        <h3 style="color: #87ceeb; margin-top: 0;"></h3>
         <p style="line-height: 1.6; color: #ffd700;">
-          Di usia yang ke-19 ini, kamu berada di ambang petualangan baru yang menakjubkan. 
-          Seperti bulan yang bergerak melintasi langit malam, perjalanan hidupmu akan membawa cahaya ke tempat-tempat gelap.<br><br>
-          Setiap bintang di langit mewakili mimpi dan harapanmu. Mereka mungkin tampak jauh, 
-          tapi dengan tekad dan semangat yang kamu miliki, tidak ada yang tidak mungkin untuk diraih. ⭐<br><br>
-          Percayalah pada dirimu sendiri, karena kamu memiliki kekuatan untuk mengubah dunia 
-          dengan cara yang unik dan indah. Jadilah cahaya bagi orang-orang di sekelilingmu! 💫<br><br>
-          <strong style="color: #87ceeb;">Masa depan menanti kehadiranmu! 🚀</strong>
+          selama 3 hari kau belum ngechat aku ga mikir yang aneh, cuman mikir mungkin emang lagi sibuk ajanya.
+          baru lah setelah seminggu kau belum balas chatku,jadi aku mikir mungkinnya kau mulai menjaga jarak?
+          tapi disitu aku masih mau mikir yang positif aja sih,jadi daripada aku mikir yang aneh aneh aku mulai teringat bentar lagi ulang tahunmu.<br><br>
+          jadi kan, selama aku nungguin chat yang belum dibalas itu kan,disitu aku mulai bisa mikir ke kodingan error ++. :v
+          orang yang cuman suka backend code sampai mau belajar frontend demi buat ucapan kecil kecilan ini aja.
+          dan sampe tanggal 31 disitu udah batas aku bisa ngelindungin otak dari hal yang aneh. <br><br>
+         
+          disitu aku udah 100% mikir kalau memang kau udah mulai ngejauhin aku.
+          aku udah nge cek beberapa kali dari chat sebelum sebelumnya, yang tentang kalau misal aku beneran ditembak, tapi ternyata itu cuman "semisalnya".
+          jadi aku ngerasa cuman aku aja yang suka samamu.
+          dan disitu aku mulai ngambil langkah untuk putus kontak (ngeblok semua akunmu maksudnya).
+          emang agak egois karena main sepihak tapi kalau dipertahankan terus malah aku yang kena mental wkwkwkwk.
+          <br><br>
+          disitu aku mulai nulis pesannya disurat ini dan rencananya setelah codingan ini selesai dan disitu aku udah kirim link ucapannya,
+          aku langsung buru buru blok semua akun mu biar aku bisa move on pelan pelan.
+          dan yap datanglah hari baru baru ini kau ngechat aku karena masalah sepele (disuruh milih skin yang paling cocok dipilih aja bejir).
+          disitu semua hal aneh yang kupikirkan langsung terbantahkan gitu aja.ajaibb cuyyyy!!
+          setelah itu aku langsung batalin rencanaku + pesan yang kutulis sebelumnya dan kugantikan ke pesan sekarang ini.<br><br>
         </p>
       </div>
       <div class="message-page" id="messagePage3" style="display: none;">
-        <h3 style="color: #ffd700; margin-top: 0;">🎊 Harapan dan Doa Terbaik 🎊</h3>
+        <h3 style="color: #ffd700; margin-top: 0;"></h3>
         <p style="line-height: 1.6; color: #ffd700;">
-          Sebagai penutup pesan magis ini, kami ingin menyampaikan doa dan harapan terbaik untukmu. 
-          Semoga setiap langkahmu dipenuhi dengan kebahagiaan, kesehatan, dan kesuksesan. 🙏<br><br>
-          Seperti kembang api yang menerangi langit malam, semoga hidupmu selalu dipenuhi 
-          dengan momen-momen indah yang berwarna-warni dan tak terlupakan. 🎆<br><br>
-          Jangan pernah lupakan bahwa kamu adalah seseorang yang istimewa, dicintai, 
-          dan memiliki potensi luar biasa untuk mencapai semua yang kamu impikan. 💝<br><br>
-          <strong style="color: #ff69b4;">Selamat ulang tahun, Joi yang tersayang! 
-          Semoga tahun ini menjadi tahun terbaikmu! 🎂🎈✨</strong>
+          
+         memang overthinkingku susah dihilangin.ngelihat kau online ig tapi ga bales chat atau ngga online ml tapi main sama orang lain aja udah bikin pikiranku kemana mana.
+         tapi ya mau gimana lagi kan,aku juga ga mau ngerisihin orang apalagi orangnya beda dari yang lain.
+         pilihanku cuman bisa ngechat kau kalau kau yang mulai duluan atau ada yang sesuatu yang penting yang mau kubilang.
+         emang aneh sih tapi apa daya wkwkwk.daripada aku jadi pengganggu mending aku jadi tempat teduh😉.<br><br>
+         
+         jadi inti dari semua pesan ini, mungkin aja aku tetap overthinking but i'll not give up selagi dari mulutmu ngeluarin kata kata yang bikin aku nyerah(berharap penuh semoga ga terjadi).
+         soalnya ga mungkin aku sendiri yang lawan last boss kan wkwkwkwkwkwk.
+         sampai disini aja sesi yappingku yang mungkin ga akan pernah diimplementasikan ke dunia nyata.
+         kalau misalnya udah ketahuan janganlah kau potoin ini,mati krinjjjj nanti aku☝️.
+         
+         <br><br>
+
+          <strong style="color: #ff69b4;">
         </p>
       </div>
       <div class="message-navigation">
@@ -142,7 +165,7 @@
     <img id="sideGif" src="gifff/wait.gif" alt="GIF" />
   </div>
   <audio id="musik" loop>
-    <source src="gifff/WhatsApp Audio 2025-08-05 at 19.47.56 (1).mpeg" type="audio/mpeg"/>
+    <source src="gifff/song.mpeg" type="audio/mpeg"/>
   </audio>
   <script src="script.js"></script>
 </body>
