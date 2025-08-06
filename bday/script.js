@@ -28,6 +28,19 @@ const mergedCloseButton = get('mergedSecretMessageModal').querySelector('.close-
 const sideGifContainer = document.getElementById('sideGifContainer');
 const sideGif = document.getElementById('sideGif');
 
+let currentState = 'countdown'; // countdown, afterAnim, suratUtama, gabungan
+let gifDurations = {
+  'wait.gif': 4000,
+  'turu.gif': 3500,
+  'clap.gif': 2800,
+  'betday1.gif': 3200,
+  'pat.gif': 2500,
+  'salam.gif': 3000,
+  'mloe.gif': 2200,
+  'angreh.gif': 2800,
+  'wlee.gif': 2600
+};
+
 // GIF sequence mapping
 const gifSequences = {
   countdown: ['gifff/wait.gif', 'gifff/turu.gif'],
@@ -62,31 +75,52 @@ function setGifType(type, page = 0) {
   stopGif();
   currentGifType = type;
   currentGifIndex = 0;
+  
   if (type === 'gabungan') {
-    sideGif.src = gifSequences.gabungan[page];
+    if (gifSequences.gabungan[page]) {
+      sideGif.src = gifSequences.gabungan[page];
+    }
   } else {
-    sideGif.src = gifSequences[type][currentGifIndex];
-    sideGif.onload = () => {
-      stopGif(); // pastikan tidak stack
-      gifTimer = setTimeout(() => {
-        currentGifIndex = (currentGifIndex + 1) % gifSequences[type].length;
-        sideGif.src = gifSequences[type][currentGifIndex];
-      }, 2500);
-    };
+    if (gifSequences[type] && gifSequences[type].length > 0) {
+      sideGif.src = gifSequences[type][currentGifIndex];
+      setupGifSequence(type);
+    }
   }
 }
 
-function startCountdownGifLoop() {
-  setGifType('countdown');
+function setupGifSequence(type) {
+  if (currentGifType !== type) return;
+  
+  const currentGifSrc = gifSequences[type][currentGifIndex];
+  const gifFileName = currentGifSrc.split('/').pop();
+  const duration = gifDurations[gifFileName] || 3000;
+  
+  stopGif();
+  gifTimer = setTimeout(() => {
+    if (currentGifType === type && gifSequences[type].length > 1) {
+      currentGifIndex = (currentGifIndex + 1) % gifSequences[type].length;
+      sideGif.src = gifSequences[type][currentGifIndex];
+      setupGifSequence(type); // Lanjut ke GIF berikutnya
+    }
+  }, duration);
 }
-function afterAnimGifLoop() {
-  setGifType('afterAnim');
-}
-function suratUtamaGifLoop() {
-  setGifType('suratUtama');
-}
-function gabunganGifSet(pageIdx) {
-  setGifType('gabungan', pageIdx);
+
+function setState(newState) {
+  currentState = newState;
+  switch(newState) {
+    case 'countdown':
+      setGifType('countdown');
+      break;
+    case 'afterAnim':
+      setGifType('afterAnim');
+      break;
+    case 'suratUtama':
+      setGifType('suratUtama');
+      break;
+    case 'gabungan':
+      // Handled separately by gabunganGifSet
+      break;
+  }
 }
 
 // --- CAHAYA PENUTUP ANGKA 8 (LINGKARAN MULTI LAYER) ---
@@ -124,6 +158,7 @@ function createWhiteLightOverlay() {
 
 // --- MODAL CONTROL (modal surat utama tidak akan ikut terbuka saat gabungan) ---
 function showSecretMessage() {
+  if (envelopesMerged) return;
   stopGif();
   suratUtamaGifLoop();
   mainSecretMessageModal.style.display = 'flex';
@@ -232,18 +267,36 @@ function startCountdown() {
   }, 1000);
 }
 
-// --- ANIMASI NUMBER TRANSITION (panggil overlay dan GIF loop setelah selesai) ---
+function gabunganGifSet(pageIdx) {
+  setGifType('gabungan', pageIdx);
+}
+
+function afterAnimGifLoop() {
+  setState('afterAnim');
+}
+
+function showSecretMessage() {
+  if (envelopesMerged) return;
+  setState('suratUtama');
+  mainSecretMessageModal.style.display = 'flex';
+  moonSecretMessageModal.style.display = 'none';
+  mergedSecretMessageModal.style.display = 'none';
+}
+
 function animateNumberTransition() {
   mainTitle.style.opacity = 0;
   mainTitle.style.display = 'none';
   const numberContainer = document.querySelector('.number-container');
   numberContainer.style.opacity = 1;
+
   setTimeout(() => {
     const digitContainer = get('digitContainer');
     digitContainer.classList.add('animate');
+    
     setTimeout(() => {
       createWhiteLightOverlay();
     }, 2000);
+
     setTimeout(() => {
       const digitOld = digitContainer.querySelector('.digit-old');
       const digitNew = digitContainer.querySelector('.digit-new');
@@ -254,16 +307,19 @@ function animateNumberTransition() {
       digitNew.style.transform = 'rotateX(-90deg)';
       digitNew.style.opacity = '0';
       digitOld.style.animation = 'subtleGlow 2s ease-in-out infinite alternate';
+      
       if (typeof startFireworks === 'function') {
         startFireworks();
       }
+      
+      // *** PERBAIKAN: Set state ke afterAnim ***
+      setState('afterAnim');
+      
     }, 4500);
   }, 5000);
+
   setTimeout(() => {
     mainSecretEnvelope.style.display = 'flex';
-    // === Tambahkan stopGif dan mulai afterAnimGifLoop ===
-    stopGif();
-    afterAnimGifLoop();
   }, 10000);
 }
 
@@ -830,17 +886,17 @@ function animateNumberTransition() {
 
 // Secret message functions
 function showSecretMessage() {
-  if (envelopesMerged) {
-    return;
-  }
+  if (envelopesMerged) return;
+  
+  setState('suratUtama');
   mainSecretMessageModal.style.display = 'flex';
   moonSecretMessageModal.style.display = 'none';
   mergedSecretMessageModal.style.display = 'none';
-  suratUtamaGifLoop();
 }
 
 function closeSecretMessage() {
   mainSecretMessageModal.style.display = 'none';
+  setState('afterAnim');
 }
 
 function showMoonSecretMessage() {
@@ -854,6 +910,7 @@ function closeMoonSecretMessage() {
 }
 
 function showMergedSecretMessage() {
+  currentState = 'gabungan';
   currentPage = 1;
   for (let i = 1; i <= totalPages; i++) {
     get(`messagePage${i}`).style.display = 'none';
@@ -868,6 +925,7 @@ function showMergedSecretMessage() {
 
 function closeMergedSecretMessage() {
   mergedSecretMessageModal.style.display = 'none';
+  setState('afterAnim');
 }
 
 // Event listeners for close buttons
@@ -896,23 +954,30 @@ mergedSecretMessageModal.addEventListener('click', (e) => {
 
 // Countdown logic
 function startCountdown() {
-  const targetDate = new Date();
-  targetDate.setSeconds(targetDate.getSeconds() + 5);
+    setState('countdown');
+    const targetDate = getTargetDate();
   
-  const countdown = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-    
-    if (distance < 0) {
-      clearInterval(countdown);
+    if (!targetDate) {
       countdownDiv.style.display = 'none';
       selamatDiv.style.display = 'block';
-      
-      // Start the number animation
       animateNumberTransition();
-      
       return;
     }
+  
+    countdownDiv.style.display = 'block';
+    selamatDiv.style.display = 'none';
+  
+    const countdown = setInterval(() => {
+      const now = new Date();
+      const distance = targetDate - now;
+  
+      if (distance < 0) {
+        clearInterval(countdown);
+        countdownDiv.style.display = 'none';
+        selamatDiv.style.display = 'block';
+        animateNumberTransition();
+        return;
+      }
     
     const seconds = Math.floor(distance / 1000);
     countdownDiv.innerHTML = `${seconds}`;
@@ -922,13 +987,17 @@ function startCountdown() {
 // Audio management
 function initAudio() {
   musik.volume = 0.3;
-  musik.play().catch(e => {
-    console.log("Background music autoplay failed:", e);
+  musik.play().then(() => {
+    console.log("Background music started automatically");
+  }).catch(e => {
+    console.log("Autoplay blocked, will start after user interaction:", e);
     document.addEventListener('click', () => {
       musik.play().catch(e => console.log("Music play failed:", e));
     }, { once: true });
+    setTimeout(() => {
+      musik.play().catch(e => console.log("Delayed music play failed:", e));
+    }, 1000);
   });
-  // Removed other audio initializations
 }
 
 // Enhanced reflection system - UPDATED to only show light reflections
